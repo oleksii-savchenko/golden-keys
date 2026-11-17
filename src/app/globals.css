@@ -1,0 +1,191 @@
+/* ── Токены ─────────────────────────────────────────────────────────────── */
+:root {
+  /* --vw = 1% ширины без полосы прокрутки (ставит ViewportHeight), fallback 1vw */
+  --u: calc(var(--vw, 1vw) * 100 / 1920); /* 1px десктоп-макета 1920 */
+  --m: calc(var(--vw, 1vw) * 100 / 390); /* 1px мобильного макета 390 */
+  --px: 1px; /* «пол» для минимальных размеров текста */
+
+  --c-text: #1a1a1a;
+  --c-yellow: #ffe039;
+  --c-gray: #f2f3f5;
+  --c-navy: #161d2a;
+  --c-white: #ffffff;
+
+  --ease: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-fill: cubic-bezier(0.65, 0, 0.25, 1);
+
+  /* отступы контента по бокам */
+  --gutter: calc(85 * var(--u));
+  --edge: calc(14 * var(--u)); /* поле у широких плашек (hero, telegram, контакты) */
+}
+
+/* планшеты 768–1199: уменьшенный десктоп без минимальных размеров */
+@media (min-width: 768px) and (max-width: 1199px) {
+  :root {
+    --px: 0px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: calc(15 * var(--m));
+    --edge: 0px;
+  }
+}
+
+/* ── База ───────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--c-white);
+  color: var(--c-text);
+  font-family: var(--font-inter-tight), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 400;
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip; /* не hidden — иначе ломается sticky */
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-yellow);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+[data-anchor] {
+  scroll-margin-top: calc(40 * var(--u) + 16px);
+}
+
+/* показ/скрытие по брейкпоинту (когда мобильная разметка сильно отличается) */
+@media (max-width: 767px) {
+  .only-desktop {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) {
+  .only-mobile {
+    display: none !important;
+  }
+}
+
+/* Первый экран: элементы скрыты до старта GSAP; fallback-показ через 2.5 с без JS-анимации */
+html.js [data-pending] {
+  opacity: 0;
+}
+html.js.reveal-fallback [data-pending] {
+  opacity: 1;
+  transition: opacity 0.6s var(--ease);
+}
+
+/* ── Единое подчёркивание ссылок ───────────────────────────────────────────
+   .u-line      — линии нет, на hover прорисовывается слева направо, при уходе уезжает вправо
+   .u-line--on  — линия есть всегда, на hover уезжает вправо и заново рисуется слева */
+.u-line {
+  background: linear-gradient(currentColor, currentColor) 100% 100% / 0% 1px no-repeat;
+  padding-bottom: 0.08em;
+  transition: background-size 0.55s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.u-line--on {
+  background-size: 100% 1px;
+  background-position: 0 100%;
+}
+@media (hover: hover) and (pointer: fine) {
+  a:hover .u-line:not(.u-line--on),
+  button:hover .u-line:not(.u-line--on),
+  .u-line:not(.u-line--on):hover {
+    background-size: 100% 1px;
+    background-position: 0 100%;
+  }
+  a:hover .u-line--on,
+  button:hover .u-line--on {
+    animation: u-line-redraw 0.8s cubic-bezier(0.7, 0, 0.2, 1);
+  }
+}
+@keyframes u-line-redraw {
+  0% {
+    background-size: 100% 1px;
+    background-position: 100% 100%;
+  }
+  45% {
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+  }
+  55% {
+    background-size: 0% 1px;
+    background-position: 0 100%;
+  }
+  100% {
+    background-size: 100% 1px;
+    background-position: 0 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

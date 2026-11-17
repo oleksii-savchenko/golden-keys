@@ -1,0 +1,15 @@
+{
+  "title": "Краще один раз побачити",
+  "text": "Подивіться будинки «Золотих Ключів» у коротких відео:",
+  "ctaText": "Дивитися більше відео",
+  "ctaLink": "",
+  "videos": [
+    { "video": "/media/video/reel1.mp4", "poster": "/media/posters/reel1.webp" },
+    { "video": "/media/video/reel2.mp4", "poster": "/media/posters/reel2.webp" },
+    { "video": "/media/video/reel3.mp4", "poster": "/media/posters/reel3.webp" },
+    { "video": "/media/video/reel4.mp4", "poster": "/media/posters/reel4.webp" },
+    { "video": "/media/video/reel5.mp4", "poster": "/media/posters/reel5.webp" },
+    { "video": "/media/video/reel6.mp4", "poster": "/media/posters/reel6.webp" },
+    { "video": "/media/video/reel7.mp4", "poster": "/media/posters/reel7.webp" }
+  ]
+}

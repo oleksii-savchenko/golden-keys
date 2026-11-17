@@ -1,0 +1,188 @@
+/* Desktop: заголовок y3786 (от telegram 194), лента y4124: карточки 315×559 r8, шаг 332, старт x14 */
+.section {
+  padding-top: calc(194 * var(--u));
+}
+
+.head {
+  padding: 0 var(--gutter);
+}
+.title {
+  font-size: calc(150 * var(--u));
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.text {
+  margin-top: calc(62 * var(--u));
+  font-size: max(calc(15 * var(--px)), calc(25 * var(--u)));
+  line-height: 1.3;
+}
+
+.stripWrap {
+  display: flow-root;
+  overflow-x: clip;
+}
+
+.strip {
+  --cw: calc(315 * var(--u));
+  --gap: calc(17 * var(--u));
+  position: relative;
+  height: calc(559 * var(--u));
+  margin-top: calc(94 * var(--u));
+  margin-left: var(--edge);
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+.strip:active {
+  cursor: grabbing;
+}
+
+.card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--cw);
+  height: 100%;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* сдвиг соседей при наведении: зум 1.12 растит карточку на 6% с каждой стороны,
+   соседи уезжают на 10% — между ними остаётся зазор больше исходного */
+.shift {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s var(--ease);
+}
+.card[data-side="l"] .shift {
+  transform: translateX(calc(var(--cw) * -0.1));
+}
+.card[data-side="r"] .shift {
+  transform: translateX(calc(var(--cw) * 0.1));
+}
+
+.inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ddd;
+  transform: translateZ(0);
+  transition: transform 0.6s var(--ease);
+}
+.inner video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: calc(105 * var(--u));
+  height: calc(105 * var(--u));
+  min-width: calc(56 * var(--px));
+  min-height: calc(56 * var(--px));
+  border-radius: 50%;
+  background: var(--c-yellow);
+  color: var(--c-text);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.7);
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.45s var(--ease);
+}
+.play svg {
+  grid-area: 1 / 1;
+}
+.icoPlay {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+/* видео со звуком — поверх ничего: кнопка play скрыта и при наведении */
+/* активное видео (со звуком) чуть увеличено — видно, какое играет. На десктопе при наведении зум 1.12 главнее.
+   Рост 3% с каждой стороны меньше зазора (5.4%), соседи не перекрываются. */
+.isSound {
+  z-index: 2;
+}
+.isSound .inner {
+  transform: scale(1.06);
+}
+
+.isSound .play {
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) scale(0.7) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .inner {
+    transform: scale(1.12);
+  }
+  .card:hover .play {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .card:hover {
+    z-index: 2;
+  }
+}
+
+.card:focus-visible .play {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.cta {
+  display: flex;
+  justify-content: center;
+  margin-top: calc(86 * var(--u));
+}
+
+/* ── Мобила: видно ~1,5 видео (208×370, шаг 219.4), свайп ───────────────── */
+@media (max-width: 767px) {
+  .section {
+    padding-top: calc(84 * var(--m));
+  }
+  .head {
+    text-align: center;
+  }
+  .title {
+    width: calc(361 * var(--m));
+    margin: 0 auto;
+    font-size: calc(70 * var(--m));
+    white-space: normal;
+  }
+  .text {
+    width: calc(320 * var(--m));
+    margin: calc(38 * var(--m)) auto 0;
+    font-size: calc(18 * var(--m));
+  }
+  .strip {
+    --cw: calc(208.2 * var(--m));
+    --gap: calc(11.2 * var(--m));
+    height: calc(369.5 * var(--m));
+    margin-top: calc(28 * var(--m));
+    margin-left: calc(15 * var(--m));
+    cursor: auto;
+  }
+  .inner {
+    border-radius: calc(5.3 * var(--m));
+  }
+  /* на мобиле кнопки play нет: тап по видео включает/выключает звук */
+  .play {
+    display: none;
+  }
+  .cta {
+    margin-top: calc(30 * var(--m));
+  }
+}

@@ -1,0 +1,144 @@
+/* Figma: 453×107, r8, текст 22 Medium, белый квадрат 92 r7 с полем 8 */
+.btn {
+  --k: var(--bk, var(--u));
+  display: inline-flex;
+  align-items: center;
+  width: calc(var(--bw) * var(--k));
+  height: max(calc(64 * var(--px)), calc(107 * var(--k)));
+  padding: calc(8 * var(--k));
+  border-radius: calc(8 * var(--k));
+  background: var(--c-yellow);
+  color: var(--c-text);
+  transition:
+    background-color 0.45s var(--ease),
+    box-shadow 0.45s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.label {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 calc(16 * var(--k));
+  font-size: max(calc(15 * var(--px)), calc(22 * var(--k)));
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* ── текст: на hover буквы быстро и невысоко подпрыгивают волной (один раз) ── */
+.text {
+  display: inline-flex;
+}
+.ch {
+  display: inline-block;
+}
+@keyframes btn-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-0.16em);
+  }
+}
+
+/* ── квадрат: тёмная заливка снизу, стрелка белеет и поворачивается ↗ ── */
+.square {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: calc(7 * var(--k));
+  background: var(--c-white);
+  color: var(--c-text);
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.35s var(--ease) 0.08s;
+}
+.square::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--c-text);
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+  transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.arrow {
+  width: calc(16.08 * var(--k));
+  height: calc(16.08 * var(--k));
+  min-width: calc(12 * var(--px));
+  min-height: calc(12 * var(--px));
+  overflow: visible;
+  transform: rotate(-90deg);
+  transition: transform 0.55s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.arrow :global(path) {
+  fill: currentColor;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    background-color: var(--c-white);
+    box-shadow: inset 0 0 0 1px rgba(26, 26, 26, 0.1);
+  }
+  .btn:hover .ch {
+    animation: btn-hop 0.36s cubic-bezier(0.33, 0, 0.3, 1) both;
+    animation-delay: calc(var(--i) * 12ms);
+  }
+  .btn:hover .square::before {
+    transform: scaleY(1);
+  }
+  .btn:hover .square {
+    color: var(--c-white);
+  }
+  .btn:hover .arrow {
+    transform: rotate(-135deg);
+  }
+}
+
+.btn:active .square::before {
+  transform: scaleY(1);
+}
+.btn:active .square {
+  color: var(--c-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow,
+  .square::before {
+    transition-duration: 0.01ms;
+    transition-delay: 0s;
+  }
+  .btn:hover .ch {
+    animation: none;
+  }
+}
+
+/* мобила: 360×85–93, r6.4, текст 17.5–19, квадрат ~73–80 */
+@media (max-width: 767px) {
+  .btn {
+    --k: var(--bk, var(--m));
+    width: calc(360 * var(--k));
+    height: calc(88 * var(--k));
+    padding: calc(6.4 * var(--k));
+    border-radius: calc(6.5 * var(--k));
+  }
+  .label {
+    font-size: calc(18 * var(--k));
+    padding: 0 calc(10 * var(--k));
+  }
+  .square {
+    border-radius: calc(5.8 * var(--k));
+  }
+  .arrow {
+    width: calc(13.6 * var(--k));
+    height: calc(13.6 * var(--k));
+  }
+}

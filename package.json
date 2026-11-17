@@ -1,0 +1,25 @@
+{
+  "name": "golden-keys",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3010",
+    "build": "next build",
+    "images": "node scripts/images.mjs",
+    "video": "bash scripts/compress-video.sh"
+  },
+  "dependencies": {
+    "gsap": "^3.15.1",
+    "next": "^15.5.29",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter-tight": "^5.3.0",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "sharp": "^0.35.5",
+    "typescript": "^5.9.3"
+  }
+}

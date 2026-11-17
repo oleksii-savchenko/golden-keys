@@ -1,0 +1,355 @@
+# Админ-панель Pages CMS (https://app.pagescms.org) — редактирует JSON-файлы в /content.
+# После сохранения в админке GitHub Actions сам пересобирает сайт (1–3 минуты).
+# Фоновые видео (hero, Telegram, контакти) намеренно не выведены: они лежат в public/media/bg.
+
+media:
+  - name: images
+    label: Фото
+    input: public/media/img
+    output: /media/img
+    categories: [image]
+    rename: safe
+  - name: videos
+    label: Відео
+    input: public/media/video
+    output: /media/video
+    extensions: [mp4]
+    rename: safe
+  - name: posters
+    label: Обкладинки відео
+    input: public/media/posters
+    output: /media/posters
+    categories: [image]
+    rename: safe
+
+content:
+  # ── Загальне ──────────────────────────────────────────────────────────────
+  - name: settings
+    label: Контакти та SEO
+    type: file
+    path: content/settings.json
+    format: json
+    fields:
+      - name: phone
+        label: Телефон
+        type: string
+        description: Як показувати на сайті, напр. 067 161 00 10. Посилання для дзвінка створюється автоматично.
+      - name: telegram
+        label: Telegram-канал (посилання)
+        type: string
+        description: На нього ведуть кнопки, картки об'єктів і блок Telegram.
+      - name: instagram
+        label: Instagram (посилання)
+        type: string
+      - name: metaTitle
+        label: SEO — заголовок сторінки
+        type: string
+        options: { maxlength: 90 }
+      - name: metaDescription
+        label: SEO — опис сторінки
+        type: text
+        options: { maxlength: 300 }
+
+  # ── 1. Перший екран ───────────────────────────────────────────────────────
+  - name: hero
+    label: 1. Перший екран
+    type: file
+    path: content/hero.json
+    format: json
+    fields:
+      - name: title
+        label: Великий заголовок
+        type: string
+        description: Розмір шрифту підбирається автоматично, щоб заголовок займав усю ширину.
+      - name: subtitle
+        label: Підзаголовок
+        type: text
+      - name: location
+        label: Локація (зліва внизу)
+        type: text
+        description: Кожен рядок — з нового рядка.
+      - name: aboutText
+        label: Підпис біля кружка з відео
+        type: text
+        description: Кожен рядок — з нового рядка.
+      - name: aboutVideo
+        label: Відео в кружку
+        type: file
+        description: Вертикальне або квадратне MP4 зі звуком, бажано до 50 МБ. Сайт стисне його під час публікації.
+        options: { media: videos, extensions: [mp4] }
+      - name: aboutPoster
+        label: Обкладинка відео в кружку (необов'язково)
+        type: image
+        description: Якщо не вказати — візьметься перший кадр відео.
+        options: { media: posters }
+      - name: ctaText
+        label: Текст жовтої кнопки
+        type: string
+      - name: ctaLink
+        label: Посилання жовтої кнопки (необов'язково)
+        type: string
+        description: Якщо порожньо — Telegram-канал.
+
+  # ── 2. Цифри ──────────────────────────────────────────────────────────────
+  - name: stats
+    label: 2. Цифри
+    type: file
+    path: content/stats.json
+    format: json
+    fields:
+      - name: items
+        label: Показники
+        type: object
+        list:
+          min: 1
+          max: 8
+          collapsible:
+            collapsed: true
+            summary: "{fields.value}{fields.suffix} {fields.unit}"
+        fields:
+          - name: value
+            label: Число (рахується анімацією від 0)
+            type: number
+            options: { min: 0 }
+          - name: suffix
+            label: Текст після числа
+            type: string
+            description: Напр. «/7» для «24/7». Зазвичай порожньо.
+          - name: plus
+            label: Жовтий «+» біля числа
+            type: boolean
+          - name: unit
+            label: Підпис під числом
+            type: string
+          - name: text
+            label: Опис
+            type: text
+          - name: mobileWide
+            label: На телефоні — окремим рядком у кінці
+            type: boolean
+            description: Для пунктів з довгим описом.
+
+  # ── 3. Актуальні об'єкти ──────────────────────────────────────────────────
+  - name: objects
+    label: 3. Актуальні об'єкти
+    type: file
+    path: content/objects.json
+    format: json
+    fields:
+      - name: title
+        label: Заголовок
+        type: string
+      - name: text
+        label: Текст біля заголовка
+        type: text
+      - name: saleLabel
+        label: Назва вкладки «Продаж»
+        type: string
+      - name: rentLabel
+        label: Назва вкладки «Оренда»
+        type: string
+      - name: moreText
+        label: Текст посилання в картці
+        type: string
+      - name: areaLabel
+        label: Підпис «Площа»
+        type: string
+      - name: plotLabel
+        label: Підпис «Ділянка»
+        type: string
+      - name: sale
+        label: Об'єкти — Продаж
+        description: Скільки завгодно, по 3 в ряд. Якщо список порожній — вкладка ховається.
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.title}"
+        fields:
+          - name: image
+            label: Фото
+            type: image
+            description: Горизонтальне, бажано від 1100 px завширшки.
+            options: { media: images }
+          - name: title
+            label: Назва
+            type: text
+          - name: area
+            label: Площа
+            type: string
+            description: Напр. 210 м²
+          - name: plot
+            label: Ділянка
+            type: string
+            description: Напр. 10 соток
+          - name: link
+            label: Посилання (необов'язково)
+            type: string
+            description: Якщо порожньо — Telegram-канал.
+      - name: rent
+        label: Об'єкти — Оренда
+        description: Скільки завгодно, по 3 в ряд. Якщо список порожній — вкладка ховається.
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.title}"
+        fields:
+          - name: image
+            label: Фото
+            type: image
+            description: Горизонтальне, бажано від 1100 px завширшки.
+            options: { media: images }
+          - name: title
+            label: Назва
+            type: text
+          - name: area
+            label: Площа
+            type: string
+            description: Напр. 210 м²
+          - name: plot
+            label: Ділянка
+            type: string
+            description: Напр. 10 соток
+          - name: link
+            label: Посилання (необов'язково)
+            type: string
+            description: Якщо порожньо — Telegram-канал.
+
+  # ── 4. Telegram-канал ─────────────────────────────────────────────────────
+  - name: telegram
+    label: 4. Telegram-канал
+    type: file
+    path: content/telegram.json
+    format: json
+    fields:
+      - name: title
+        label: Заголовок
+        type: text
+        description: Кожен рядок — з нового рядка.
+      - name: features
+        label: Пункти з іконками
+        type: object
+        list:
+          min: 1
+          max: 4
+        fields:
+          - name: icon
+            label: Іконка
+            type: select
+            options:
+              values:
+                - { name: home, label: Будинок }
+                - { name: pin, label: Мітка на мапі }
+                - { name: camera, label: Камера }
+          - name: text
+            label: Текст
+            type: text
+            description: Кожен рядок — з нового рядка.
+      - name: ctaText
+        label: Текст кнопки
+        type: string
+      - name: note
+        label: Підпис біля кнопки
+        type: text
+
+  # ── 5. Відео ──────────────────────────────────────────────────────────────
+  - name: reels
+    label: 5. Відео «Краще один раз побачити»
+    type: file
+    path: content/reels.json
+    format: json
+    fields:
+      - name: title
+        label: Заголовок
+        type: string
+      - name: text
+        label: Підзаголовок
+        type: text
+      - name: videos
+        label: Відео
+        description: Вертикальні MP4 (9:16), бажано до 50 МБ кожне. Сайт стисне їх під час публікації.
+        type: object
+        list:
+          min: 1
+          collapsible:
+            collapsed: true
+            summary: "{fields.video}"
+        fields:
+          - name: video
+            label: Відео
+            type: file
+            options: { media: videos, extensions: [mp4] }
+          - name: poster
+            label: Обкладинка (необов'язково)
+            type: image
+            description: Якщо не вказати — візьметься перший кадр відео.
+            options: { media: posters }
+      - name: ctaText
+        label: Текст кнопки
+        type: string
+      - name: ctaLink
+        label: Посилання кнопки (необов'язково)
+        type: string
+        description: Якщо порожньо — Telegram-канал.
+
+  # ── 6. Контакти ───────────────────────────────────────────────────────────
+  - name: contacts
+    label: 6. Контакти
+    type: file
+    path: content/contacts.json
+    format: json
+    fields:
+      - name: title
+        label: Напис навколо логотипу
+        type: string
+        description: Перша половина слів — зліва від логотипу, друга — справа. Телефон і посилання — у «Контакти та SEO».
+      - name: phoneCaption
+        label: Підпис під телефоном
+        type: string
+      - name: telegramTitle
+        label: Назва посилання Telegram
+        type: string
+      - name: telegramCaption
+        label: Підпис під Telegram
+        type: string
+      - name: instagramTitle
+        label: Назва посилання Instagram
+        type: string
+      - name: instagramCaption
+        label: Підпис під Instagram
+        type: string
+
+  # ── Футер ─────────────────────────────────────────────────────────────────
+  - name: footer
+    label: Футер
+    type: file
+    path: content/footer.json
+    format: json
+    fields:
+      - name: name
+        label: Назва
+        type: string
+      - name: sub
+        label: Підпис під назвою
+        type: string
+      - name: privacyLink
+        label: Текст посилання на політику
+        type: string
+
+  - name: privacy
+    label: Політика конфіденційності
+    type: file
+    path: content/privacy.json
+    format: json
+    fields:
+      - name: title
+        label: Заголовок
+        type: string
+      - name: updated
+        label: Дата редакції
+        type: string
+      - name: body
+        label: Текст
+        type: rich-text
+        options: { format: html, media: false }

@@ -1,0 +1,80 @@
+/* размер задаёт родитель через --size (px-значение с единицами) */
+.slot {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: var(--size);
+  height: var(--size);
+}
+
+.circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--size) * 2.5);
+  height: calc(var(--size) * 2.5);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--c-white);
+  color: var(--c-text);
+  transform: translate(-50%, -50%) scale(0.4);
+  transform-origin: 50% 50%;
+  z-index: 3;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transition: opacity 0.3s var(--ease);
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  pointer-events: none;
+}
+.ring circle {
+  fill: none;
+  stroke: var(--c-yellow);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.open .video {
+  opacity: 1;
+}
+.open .face {
+  opacity: 0;
+}
+.open .ring {
+  opacity: 1;
+}
+.open {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}

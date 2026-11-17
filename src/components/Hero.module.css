@@ -1,0 +1,162 @@
+/* Desktop: карточка 1892×1050 с полем 14 сверху 10. Масштаб по меньшему из ширина/1920 и высота/1080 */
+.hero {
+  --h: min(var(--u), calc(var(--svh, 1svh) * 100 / 1080));
+  padding: calc(10 * var(--u)) var(--edge) 0;
+}
+
+.card {
+  position: relative;
+  height: calc(1050 * var(--h));
+  color: var(--c-white);
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(30 * var(--u));
+  overflow: hidden;
+  background: #555 var(--poster) center / cover no-repeat;
+}
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  top: calc(113 * var(--h));
+  width: calc(237 * var(--h));
+  transform: translateX(-50%);
+}
+.logo svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.title {
+  position: absolute;
+  left: 50%;
+  /* размер — от ширины (буквы ровно от «Дніпро» до правого края play, как в макете);
+     по вертикали центр строки там же, где в макете (327.6 + 410/2), с масштабом по высоте */
+  top: calc(532.6 * var(--h));
+  transform: translate(-50%, -50%);
+  font-size: calc(336.1 * var(--u)); /* подогнано: края букв = 71…1821 от карточки */
+  line-height: 1.2115;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.sub {
+  position: absolute;
+  left: 50%;
+  top: calc(707 * var(--h));
+  transform: translateX(-50%);
+  font-size: max(calc(18 * var(--px)), calc(40 * var(--h)));
+  line-height: 1.21;
+  width: max-content;
+  max-width: calc(1700 * var(--u));
+  text-align: center;
+}
+
+.line {
+  display: block;
+}
+
+.location,
+.about {
+  position: absolute;
+  bottom: calc(75 * var(--h));
+  height: calc(107 * var(--h));
+  display: flex;
+  align-items: center;
+  font-size: max(calc(14 * var(--px)), calc(20 * var(--h)));
+  line-height: 1.2;
+}
+.location {
+  left: calc(71 * var(--u));
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.about {
+  right: calc(71 * var(--u));
+  gap: calc(32 * var(--h));
+  text-align: right;
+}
+.play {
+  --size: calc(105 * var(--h));
+}
+
+.cta {
+  --bk: var(--h);
+  position: absolute;
+  left: 50%;
+  bottom: calc(75 * var(--h));
+  transform: translateX(-50%);
+}
+
+/* ── Мобила: карточка 390×715, скругление только снизу ───────────────── */
+@media (max-width: 767px) {
+  .hero {
+    --h: min(var(--m), calc(var(--svh, 1svh) * 100 / 730));
+    padding: 0;
+  }
+  .card {
+    height: calc(715 * var(--h));
+  }
+  .bg {
+    border-radius: 0 0 calc(10 * var(--m)) calc(10 * var(--m));
+  }
+  .logo {
+    top: calc(64 * var(--h));
+    width: calc(124 * var(--h));
+  }
+  .title {
+    top: calc(199 * var(--h));
+    transform: translateX(-50%);
+    font-size: calc(103 * var(--h));
+    line-height: 0.8;
+  }
+  .title span {
+    display: block;
+  }
+  .sub {
+    top: calc(388 * var(--h));
+    width: calc(348 * var(--h));
+    max-width: none;
+    font-size: calc(20 * var(--h));
+    line-height: 1.21;
+  }
+  .location {
+    display: none;
+  }
+  .about {
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    top: calc(488 * var(--h));
+    height: calc(78 * var(--h));
+    transform: translateX(-50%);
+    flex-direction: row-reverse;
+    gap: calc(17 * var(--h));
+    font-size: calc(14.84 * var(--h));
+    text-align: left;
+    white-space: nowrap;
+  }
+  .play {
+    --size: calc(78 * var(--h));
+  }
+  .cta {
+    bottom: auto;
+    top: calc(598 * var(--h));
+  }
+}

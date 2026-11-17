@@ -1,0 +1,153 @@
+/* Desktop: плашка 1892×1018 r30 (y5030, от кнопки 154), «Золоті ⚜ Ключі» y+468, контакты y+831 */
+.section {
+  padding: calc(154 * var(--u)) var(--edge) 0;
+}
+
+.card {
+  position: relative;
+  height: calc(1018 * var(--u));
+  color: var(--c-white);
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(30 * var(--u));
+  overflow: hidden;
+  background: #555 var(--poster) center / cover no-repeat;
+  transform: translateZ(0);
+}
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) calc(414 / 1018 * 100%)),
+    rgba(0, 0, 0, 0.3);
+}
+
+.title {
+  position: absolute;
+  left: calc(62 * var(--u));
+  right: calc(110 * var(--u));
+  top: calc(468 * var(--u));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: calc(270 * var(--u));
+  line-height: 1.21;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+.word {
+  display: inline-block;
+}
+.logo {
+  position: absolute;
+  left: calc(50% + 24 * var(--u)); /* центр плашки */
+  top: calc(67 * var(--u));
+  width: calc(244 * var(--u));
+  transform: translateX(-50%);
+}
+.logo svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(831 * var(--u));
+  height: 0;
+}
+.item {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+.item:nth-child(1) {
+  left: calc(480 * var(--u));
+}
+.item:nth-child(2) {
+  left: calc(956 * var(--u));
+}
+.item:nth-child(3) {
+  left: calc(1409 * var(--u));
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+}
+.big {
+  font-size: calc(60 * var(--u));
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.small {
+  margin-top: calc(14 * var(--u));
+  font-size: max(calc(13 * var(--px)), calc(20 * var(--u)));
+  line-height: 1.3;
+  opacity: 0.9;
+}
+
+/* ── Мобила: плашка 390×685 r16.7, всё по центру в столбик ────────────── */
+@media (max-width: 767px) {
+  .section {
+    padding: calc(70 * var(--m)) 0 0;
+  }
+  .card {
+    height: calc(685 * var(--m));
+  }
+  .bg {
+    border-radius: calc(16.7 * var(--m));
+  }
+  .shade {
+    background:
+      linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 75%),
+      rgba(0, 0, 0, 0.3);
+  }
+  .title {
+    left: 0;
+    right: 0;
+    top: calc(195 * var(--m));
+    justify-content: center;
+    gap: 0.22em;
+    font-size: calc(67.9 * var(--m));
+    line-height: 1;
+  }
+  .logo {
+    left: 50%;
+    top: calc(-98 * var(--m));
+    width: calc(94 * var(--m));
+  }
+  .list {
+    position: absolute;
+    top: calc(350 * var(--m));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(25 * var(--m));
+    height: auto;
+  }
+  .item {
+    position: static;
+    transform: none;
+  }
+  .big {
+    font-size: calc(41.7 * var(--m));
+  }
+  .small {
+    margin-top: calc(9 * var(--m));
+    font-size: calc(13.9 * var(--m));
+  }
+}

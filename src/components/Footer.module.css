@@ -1,0 +1,107 @@
+/* Desktop: y6146 (от контактов 98), высота ~71, низ 95 */
+.footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(98 * var(--u)) var(--gutter) calc(95 * var(--u));
+  font-size: max(calc(13 * var(--px)), calc(16 * var(--u)));
+  line-height: 1.4;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: calc(25 * var(--u));
+  flex: 1;
+}
+.logo {
+  width: calc(79 * var(--u));
+  min-width: calc(48 * var(--px));
+  height: auto;
+}
+.brand p {
+  display: flex;
+  flex-direction: column;
+}
+.name {
+  font-size: max(calc(18 * var(--px)), calc(26 * var(--u)));
+  line-height: 1.4;
+}
+.sub {
+  margin-top: calc(-2 * var(--u));
+}
+
+.policy {
+  flex: none;
+}
+
+.dev {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+.devName {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(10 * var(--u));
+}
+.hawk {
+  width: calc(27.4 * var(--u));
+  min-width: calc(22 * var(--px));
+  height: auto;
+}
+.reg {
+  position: absolute;
+  left: calc(26 * var(--u));
+  top: -0.35em;
+  font-size: 0.45em;
+}
+
+
+/* ── Мобила: всё по центру в столбик ───────────────────────────────────── */
+@media (max-width: 767px) {
+  .footer {
+    flex-direction: column;
+    padding: calc(68 * var(--m)) var(--gutter) calc(64 * var(--m));
+    font-size: calc(13 * var(--m));
+    text-align: center;
+  }
+  .brand {
+    flex-direction: column;
+    gap: calc(12 * var(--m));
+  }
+  .logo {
+    width: calc(55 * var(--m));
+    min-width: 0;
+  }
+  .name {
+    font-size: calc(26 * var(--m));
+  }
+  .sub {
+    font-size: calc(16 * var(--m));
+  }
+  .policy {
+    margin-top: calc(48 * var(--m));
+  }
+  .dev {
+    margin-top: calc(34 * var(--m));
+    align-items: center;
+    text-align: center;
+  }
+  .devName {
+    flex-direction: column-reverse;
+    gap: calc(14 * var(--m));
+  }
+  .hawk {
+    width: calc(27.4 * var(--m));
+  }
+  .reg {
+    left: calc(50% + 12 * var(--m));
+    top: auto;
+    bottom: calc(6 * var(--m));
+  }
+}

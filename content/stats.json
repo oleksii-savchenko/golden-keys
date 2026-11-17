@@ -1,0 +1,9 @@
+{
+  "items": [
+    { "value": 260, "suffix": "", "plus": false, "unit": "гектарів", "text": "загальна площа містечка", "mobileWide": false },
+    { "value": 750, "suffix": "", "plus": true, "unit": "об’єктів", "text": "будинків і таунхаусів у 2026 році", "mobileWide": false },
+    { "value": 4, "suffix": "", "plus": false, "unit": "гектари", "text": "власне озеро", "mobileWide": false },
+    { "value": 365, "suffix": "", "plus": false, "unit": "днів комфорту", "text": "тенісні корти, 2 басейни, спортзал, садок, 2 кафе, магазин", "mobileWide": true },
+    { "value": 24, "suffix": "/7", "plus": false, "unit": "захист", "text": "закрита територія", "mobileWide": false }
+  ]
+}

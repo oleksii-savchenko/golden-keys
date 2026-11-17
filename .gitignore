@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+.media-cache
+# исходники видео (сотни МБ) — в репозиторий не кладём, на сайте уже сжатые версии в public/media
+/video
+.claude
+
+# личные заметки по вёрстке (не для публичного репозитория)
+VERSTAI-*.md

@@ -1,0 +1,293 @@
+/* Desktop: заголовок y1616 (от цифр 194), вкладки y1829, карточки y1979 (3×540, шаг 605) */
+.section {
+  padding: calc(199 * var(--u)) var(--gutter) 0;
+}
+
+.head {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+.title {
+  font-size: calc(150 * var(--u));
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.label {
+  position: absolute;
+  left: calc(1225 * var(--u)); /* x 1310 − 85 */
+  top: calc(16 * var(--u));
+  width: calc(133.7 * var(--u));
+  aspect-ratio: 1;
+}
+.ring,
+.label svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.ring {
+  will-change: transform;
+}
+/* кнопка на весь лейбл, но кликабелен только центр с логотипом (клип по кругу) */
+.labelBtn {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  clip-path: circle(35% at 50% 50%); /* логотип до 32.8% от центра, текст кольца дальше */
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.labelBtn svg {
+  overflow: visible;
+}
+
+.text {
+  margin-left: auto;
+  margin-top: calc(48 * var(--u));
+  width: calc(344 * var(--u));
+  min-width: calc(260 * var(--px));
+  font-size: max(calc(13 * var(--px)), calc(20 * var(--u)));
+  line-height: 1.3;
+  text-align: right;
+}
+
+/* ── Вкладки: 405×87, r8, плашка 197×75 r6 переезжает ─────────────────── */
+.tabs {
+  --tk: var(--u);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: calc(405 * var(--tk));
+  height: calc(87 * var(--tk));
+  margin-top: calc(63 * var(--u));
+  padding: calc(6 * var(--tk)) calc(7 * var(--tk));
+  border-radius: calc(8 * var(--tk));
+  background: var(--c-gray);
+}
+.plate {
+  position: absolute;
+  top: calc(6 * var(--tk));
+  left: calc(7 * var(--tk));
+  width: calc(197 * var(--tk));
+  height: calc(75 * var(--tk));
+  border-radius: calc(6 * var(--tk));
+  background: var(--c-white);
+  transform: translateX(calc(var(--i, 0) * 100%));
+  transition: transform 0.55s cubic-bezier(0.65, 0, 0.25, 1);
+}
+.tab {
+  position: relative;
+  z-index: 1;
+  font-size: max(calc(14 * var(--px)), calc(22 * var(--tk)));
+  font-weight: 500;
+  line-height: 1.2;
+  border-radius: calc(6 * var(--tk));
+  transition: opacity 0.3s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.tab:not(.tabActive) {
+  opacity: 0.85;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tab:not(.tabActive):hover {
+    opacity: 1;
+  }
+}
+
+/* ── Карточки: размеры в --k (десктоп = --u, мобила = 2/3 мобильного px) ── */
+.grid {
+  --k: var(--u);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: calc(65 * var(--u));
+  margin-top: calc(63 * var(--u));
+}
+
+.cell {
+  min-width: 0;
+  display: flex;
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(642 * var(--k));
+  padding: calc(8 * var(--k)) calc(7 * var(--k)) calc(40 * var(--k));
+  border-radius: 8px;
+  background: var(--c-gray);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.media {
+  position: relative;
+  display: block;
+  height: calc(291 * var(--k));
+  border-radius: calc(6 * var(--k));
+  overflow: hidden;
+  transform: translateZ(0);
+}
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .media img {
+    transform: scale(1.07);
+  }
+}
+
+.badge {
+  position: absolute;
+  left: calc(11 * var(--k));
+  top: calc(11 * var(--k));
+  display: grid;
+  place-items: center;
+  height: calc(37 * var(--k));
+  padding: 0 calc(16 * var(--k));
+  border-radius: calc(6 * var(--k));
+  background: rgba(217, 217, 217, 0.2);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--c-white);
+  font-size: max(calc(11 * var(--px)), calc(16 * var(--k)));
+  line-height: 1;
+}
+
+.name {
+  display: block;
+  margin: calc(32 * var(--k)) calc(28 * var(--k)) 0;
+  max-width: calc(411 * var(--k));
+  min-height: 2.4em;
+  font-size: max(calc(18 * var(--px)), calc(32 * var(--k)));
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.stats {
+  display: flex;
+  gap: calc(20 * var(--k));
+  margin: calc(31 * var(--k)) calc(28 * var(--k)) 0;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  min-width: calc(154 * var(--k));
+  height: calc(107 * var(--k));
+  padding: calc(10 * var(--k)) calc(20 * var(--k)) 0 calc(18 * var(--k));
+  border-radius: calc(6 * var(--k));
+  background: var(--c-white);
+}
+.value {
+  font-size: max(calc(22 * var(--px)), calc(40 * var(--k)));
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.key {
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--k));
+  margin-top: calc(8 * var(--k));
+  margin-left: calc(2 * var(--k));
+  font-size: max(calc(11 * var(--px)), calc(16 * var(--k)));
+  line-height: 1.3;
+}
+.ico {
+  display: grid;
+  place-items: center;
+  width: calc(25 * var(--k));
+  height: calc(25 * var(--k));
+  border-radius: 50%;
+  background: var(--c-gray);
+}
+.ico svg {
+  width: calc(13 * var(--k));
+  height: calc(13 * var(--k));
+}
+
+.more {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(10 * var(--k));
+  margin: calc(32 * var(--k)) calc(28 * var(--k)) 0;
+  font-size: max(calc(14 * var(--px)), calc(20 * var(--k)));
+  line-height: 1.3;
+}
+.moreArrow {
+  flex: none;
+  width: calc(16.08 * var(--k));
+  height: calc(16.08 * var(--k));
+  min-width: calc(13 * var(--px));
+  min-height: calc(13 * var(--px));
+  overflow: visible;
+  transform: rotate(-90deg);
+  transition: transform 0.55s cubic-bezier(0.7, 0, 0.2, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .moreArrow {
+    transform: rotate(-135deg);
+  }
+}
+
+/* ── Мобила ───────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .section {
+    padding: calc(57 * var(--m)) 0 0;
+  }
+  .head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .label {
+    position: relative;
+    left: auto;
+    top: auto;
+    order: -1;
+    width: calc(108.6 * var(--m));
+  }
+  .title {
+    margin-top: calc(38 * var(--m));
+    width: calc(365 * var(--m));
+    font-size: calc(70 * var(--m));
+    white-space: normal;
+  }
+  .text {
+    margin: calc(24 * var(--m)) 0 0;
+    width: calc(350 * var(--m));
+    min-width: 0;
+    font-size: calc(18 * var(--m));
+    text-align: center;
+  }
+  .tabs {
+    --tk: calc(var(--m) * 0.6938);
+    margin: calc(26 * var(--m)) auto 0;
+  }
+  .grid {
+    --k: calc(var(--m) * 2 / 3);
+    grid-template-columns: 1fr;
+    gap: calc(21 * var(--m));
+    margin-top: calc(35 * var(--m));
+    padding: 0 calc(15 * var(--m));
+  }
+  .card {
+    padding: calc(5.33 * var(--m)) calc(4.67 * var(--m)) calc(40 * var(--k));
+  }
+  .media {
+    border-radius: calc(4 * var(--m));
+  }
+  .badge,
+  .stat {
+    border-radius: calc(4 * var(--m));
+  }
+}
