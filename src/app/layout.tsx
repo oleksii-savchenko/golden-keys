@@ -97,7 +97,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="uk" className={interTight.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: boot }} />
-        <link rel="preload" as="image" href={asset("/media/bg/hero.webp")} fetchPriority="high" />
+        <link rel="preload" as="image" href={asset("/media/bg/hero-m.webp")} media="(max-width: 767px)" fetchPriority="high" />
+        <link rel="preload" as="image" href={asset("/media/bg/hero.webp")} media="(min-width: 768px)" fetchPriority="high" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>

@@ -75,7 +75,7 @@ export default function Contacts() {
   return (
     <section ref={root} className={s.section} id="contacts" aria-labelledby="contacts-title">
       <div className={s.card}>
-        <div className={s.bg} aria-hidden="true" style={{ "--poster": `url("${media.contacts.poster}")` } as React.CSSProperties}>
+        <div className={s.bg} aria-hidden="true">
           <LazyVideo mp4={media.contacts.mp4} poster={media.contacts.poster} className={s.video} />
           <span className={s.shade} />
         </div>

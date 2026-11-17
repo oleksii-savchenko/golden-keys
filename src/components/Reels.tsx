@@ -191,6 +191,7 @@ export default function Reels() {
       if (loaded) return;
       loaded = true;
       videos.forEach((v) => {
+        if (v.dataset.poster) v.poster = v.dataset.poster; // постеры — лениво, вместе с видео
         const src = v.querySelector<HTMLSourceElement>("source[data-src]");
         if (src) {
           src.src = src.dataset.src!;
@@ -324,7 +325,7 @@ export default function Reels() {
             >
               <span className={s.shift}>
                 <span className={s.inner}>
-                  <video muted loop playsInline preload="none" poster={r.poster} draggable={false}>
+                  <video muted loop playsInline preload="none" data-poster={r.poster} draggable={false}>
                     <source data-src={r.mp4} type="video/mp4" />
                   </video>
                   <span className={s.play} aria-hidden="true">

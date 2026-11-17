@@ -14,7 +14,7 @@
   inset: 0;
   border-radius: calc(30 * var(--u));
   overflow: hidden;
-  background: #555 var(--poster) center / cover no-repeat;
+  background: #3a3f36;
   transform: translateZ(0);
 }
 .video {

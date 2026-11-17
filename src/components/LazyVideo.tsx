@@ -32,11 +32,22 @@ const LazyVideo = forwardRef<HTMLVideoElement, Props>(function LazyVideo(
   useEffect(() => {
     const video = v.current;
     if (!video) return;
-    if (decorative && reducedMotion()) return;
+    if (decorative && reducedMotion()) {
+      // reduced motion: только постер, когда блок рядом
+      const io = new IntersectionObserver((es) => {
+        if (es[0].isIntersecting && poster) {
+          video.poster = poster;
+          io.disconnect();
+        }
+      }, { rootMargin: "300px 0px" });
+      io.observe(video);
+      return () => io.disconnect();
+    }
     let loaded = false;
     const load = () => {
       if (loaded) return;
       loaded = true;
+      if (poster) video.poster = poster; // постер тоже лениво — не грузим картинки нижних блоков сразу
       video.querySelectorAll<HTMLSourceElement>("source[data-src]").forEach((s) => {
         s.src = s.dataset.src!;
       });
@@ -72,7 +83,7 @@ const LazyVideo = forwardRef<HTMLVideoElement, Props>(function LazyVideo(
       near.disconnect();
       vis?.disconnect();
     };
-  }, [eager, autoPlay, decorative]);
+  }, [eager, autoPlay, decorative, poster]);
 
   return (
     <video
@@ -83,7 +94,7 @@ const LazyVideo = forwardRef<HTMLVideoElement, Props>(function LazyVideo(
       loop
       playsInline
       preload={eager ? "auto" : "none"}
-      poster={poster}
+      poster={eager ? poster : undefined}
       aria-hidden="true"
       tabIndex={-1}
       disablePictureInPicture

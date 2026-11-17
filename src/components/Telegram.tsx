@@ -26,7 +26,7 @@ export default function Telegram() {
   return (
     <section ref={root} className={s.section} aria-labelledby="tg-title">
       <div className={s.card}>
-        <div className={s.video} data-r="video" style={{ "--poster": `url("${media.telegram.poster}")` } as React.CSSProperties}>
+        <div className={s.video} data-r="video">
           <LazyVideo mp4={media.telegram.mp4} poster={media.telegram.poster} />
         </div>
         <div className={s.content} data-r="content">
