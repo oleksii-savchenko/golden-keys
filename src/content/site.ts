@@ -1,15 +1,30 @@
 // Контент сайта: читается из JSON-файлов в /content (их редактирует админка Pages CMS, см. .pages.yml).
 // Здесь — только типы, нормализация и производные значения (ссылки, переносы, неразрывные пробелы).
 
-import settingsJson from "../../content/settings.json";
-import heroJson from "../../content/hero.json";
-import statsJson from "../../content/stats.json";
-import objectsJson from "../../content/objects.json";
-import telegramJson from "../../content/telegram.json";
-import reelsJson from "../../content/reels.json";
-import contactsJson from "../../content/contacts.json";
-import footerJson from "../../content/footer.json";
-import privacyJson from "../../content/privacy.json";
+import settingsRaw from "../../content/settings.json";
+import heroRaw from "../../content/hero.json";
+import statsRaw from "../../content/stats.json";
+import objectsRaw from "../../content/objects.json";
+import telegramRaw from "../../content/telegram.json";
+import reelsRaw from "../../content/reels.json";
+import contactsRaw from "../../content/contacts.json";
+import footerRaw from "../../content/footer.json";
+import privacyRaw from "../../content/privacy.json";
+
+
+// Pages CMS при сохранении убирает пустые поля, поэтому любое поле может отсутствовать — типы намеренно «мягкие».
+type Loose = { [k: string]: unknown };
+const asObj = (v: unknown) => (v && typeof v === "object" ? (v as Loose) : {}) as Loose & Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+const settingsJson = asObj(settingsRaw);
+const heroJson = asObj(heroRaw);
+const statsJson = asObj(statsRaw);
+const objectsJson = asObj(objectsRaw);
+const telegramJson = asObj(telegramRaw);
+const reelsJson = asObj(reelsRaw);
+const contactsJson = asObj(contactsRaw);
+const footerJson = asObj(footerRaw);
+const privacyJson = asObj(privacyRaw);
+const list = (v: unknown) => (Array.isArray(v) ? v.map(asObj) : []);
 
 const NB = " ";
 
@@ -72,7 +87,7 @@ export const hero = {
 };
 
 export type Stat = { value: number; suffix: string; plus: boolean; unit: string; text: string; mobileWide: boolean };
-export const stats: Stat[] = (statsJson.items ?? []).map((s) => ({
+export const stats: Stat[] = list(statsJson.items).map((s) => ({
   value: Math.max(0, Math.round(Number(s.value) || 0)),
   suffix: str(s.suffix),
   plus: Boolean(s.plus),
@@ -82,7 +97,7 @@ export const stats: Stat[] = (statsJson.items ?? []).map((s) => ({
 }));
 
 export type Listing = { title: string; area: string; plot: string; img: string; alt: string; link: string };
-const listing = (o: { title?: string; area?: string; plot?: string; image?: string; link?: string; alt?: string }): Listing => ({
+const listing = (o: Loose): Listing => ({
   title: nb(o.title),
   area: nb(o.area).replace(/ /g, NB),
   plot: nb(o.plot).replace(/ /g, NB),
@@ -98,8 +113,8 @@ export const objects = {
   labelArea: str(objectsJson.areaLabel),
   labelPlot: str(objectsJson.plotLabel),
   tabs: [
-    { id: "sale" as const, label: str(objectsJson.saleLabel), items: (objectsJson.sale ?? []).map(listing) },
-    { id: "rent" as const, label: str(objectsJson.rentLabel), items: (objectsJson.rent ?? []).map(listing) },
+    { id: "sale" as const, label: str(objectsJson.saleLabel), items: list(objectsJson.sale).map(listing) },
+    { id: "rent" as const, label: str(objectsJson.rentLabel), items: list(objectsJson.rent).map(listing) },
   ].filter((t) => t.items.length > 0),
 };
 export type TabId = "sale" | "rent";
@@ -107,7 +122,7 @@ export type TabId = "sale" | "rent";
 const ICONS = { home: "icoHome", pin: "icoPin", camera: "icoCam" } as const;
 export const telegram = {
   title: lines(telegramJson.title).map(nb),
-  features: (telegramJson.features ?? []).map((f) => ({
+  features: list(telegramJson.features).map((f) => ({
     icon: ICONS[(f.icon as keyof typeof ICONS) ?? "home"] ?? ICONS.home,
     text: lines(f.text).map(nb),
   })),
@@ -120,7 +135,7 @@ export const reels = {
   text: nb(reelsJson.text),
   cta: nb(reelsJson.ctaText),
   ctaLink: str(reelsJson.ctaLink) || links.telegram,
-  items: (reelsJson.videos ?? [])
+  items: list(reelsJson.videos)
     .filter((v) => str(v.video))
     .map((v) => ({ mp4: asset(str(v.video)), poster: posterFor(str(v.video), v.poster) })),
 };
