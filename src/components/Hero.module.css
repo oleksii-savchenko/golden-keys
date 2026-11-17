@@ -94,7 +94,9 @@
   justify-content: center;
   align-items: flex-start;
 }
+/* выше кнопки: раскрытый кружок с видео должен быть поверх всего первого экрана */
 .about {
+  z-index: 5;
   right: calc(71 * var(--u));
   gap: calc(32 * var(--h));
   text-align: right;

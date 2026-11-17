@@ -18,13 +18,15 @@
   aspect-ratio: 1;
   border-radius: calc(25 * var(--u));
   overflow: hidden;
-  background: #f2f3f5;
+  background: #1d1f22; /* тёмный: на дробных пикселях у края не просвечивает светлая полоса */
   transform: translateZ(0);
 }
 .video video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* чуть больше контейнера — края видео гарантированно перекрывают фон */
+  transform: scale(1.02);
 }
 
 .content {

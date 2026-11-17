@@ -203,6 +203,15 @@ export default function Reels() {
     near.observe(track);
     let visible = false;
     // играют только видео, которые сейчас в кадре ленты (видео может быть много — не грузим телефон)
+    // звук выключается, когда ушли с блока или активное видео уехало из кадра ленты
+    const muteActive = () => {
+      const i = soundRef.current;
+      if (i === null) return;
+      videos[i].muted = true;
+      if (rm) videos[i].pause();
+      soundRef.current = null;
+      setSound(null);
+    };
     const syncPlayback = () => {
       const w = cards[0].offsetWidth;
       const vw = track.clientWidth;
@@ -210,6 +219,7 @@ export default function Reels() {
         const v = videos[i];
         const x = wrap(i * step - current);
         const inView = visible && x > -w && x < vw;
+        if (!inView && soundRef.current === i) muteActive();
         const want = inView && (!rm || soundRef.current === i);
         if (want && v.paused) v.play().catch(() => {});
         else if (!want && !v.paused) v.pause();
@@ -219,6 +229,7 @@ export default function Reels() {
       (es) => {
         visible = es[0].isIntersecting;
         if (visible) load();
+        else muteActive();
         syncPlayback();
       },
       { threshold: 0.05 },
