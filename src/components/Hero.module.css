@@ -140,9 +140,11 @@
   }
   .sub {
     top: calc(388 * var(--h));
-    width: calc(348 * var(--h));
+    /* две строки: «Закрите котеджне містечко з / інфраструктурою для комфортного життя» */
+    width: calc(370 * var(--h));
     max-width: none;
-    font-size: calc(20 * var(--h));
+    font-size: calc(19 * var(--h));
+    text-wrap: balance;
     line-height: 1.21;
   }
   .location {
