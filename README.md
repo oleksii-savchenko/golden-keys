@@ -31,6 +31,8 @@ Next.js 15 (static export) + GSAP. Хостинг — GitHub Pages, админк
 
 ## Свой домен
 
+Подключён **https://goldenkeys.dp.ua** (старый адрес `oleksii-savchenko.github.io/golden-keys` перенаправляет на него). Как подключали — на случай смены домена:
+
 1. **Settings → Pages → Custom domain** — вписать домен, у регистратора добавить DNS-записи по подсказке GitHub, включить Enforce HTTPS.
 2. **Settings → Secrets and variables → Actions → Variables** — создать `SITE_URL` = `https://домен` (для canonical, Open Graph, sitemap).
 3. Перезапустить workflow (Actions → Deploy to GitHub Pages → Run workflow). Подпапка в адресах уйдёт автоматически.

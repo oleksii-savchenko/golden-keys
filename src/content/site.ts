@@ -37,7 +37,10 @@ export const asset = (p?: string | null) => {
   return p.startsWith("/") && !p.startsWith("//") ? BASE_PATH + p : p;
 };
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://golden-keys.hawk-style.com").replace(/\/$/, "");
+// GitHub Pages может отдать адрес с http:// — для canonical/OG всегда https (кроме локального сервера)
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://goldenkeys.dp.ua")
+  .replace(/\/$/, "")
+  .replace(/^http:\/\/(?!localhost|127\.0\.0\.1)/, "https://");
 
 // ── текст ───────────────────────────────────────────────────────────────────
 const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
