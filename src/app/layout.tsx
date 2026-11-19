@@ -92,16 +92,31 @@ const jsonLd = {
 // до гидрации: html.js (скрыть первый экран для анимации) + страховочный показ, если скрипты не стартовали
 const boot = `document.documentElement.classList.add('js');setTimeout(function(){if(!window.__heroStarted)document.documentElement.classList.add('reveal-fallback')},2500);`;
 
+// Google Tag Manager — стандартный код контейнера (GA4 и прочие теги настраиваются внутри GTM)
+const GTM = settings.gtmId;
+const gtmHead = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM}');`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="uk" className={interTight.variable} suppressHydrationWarning>
       <head>
+        {GTM && <script dangerouslySetInnerHTML={{ __html: gtmHead }} />}
         <script dangerouslySetInnerHTML={{ __html: boot }} />
         <link rel="preload" as="image" href={asset("/media/bg/hero-m.webp")} media="(max-width: 767px)" fetchPriority="high" />
         <link rel="preload" as="image" href={asset("/media/bg/hero.webp")} media="(min-width: 768px)" fetchPriority="high" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
+        {GTM && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${GTM}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+        )}
         <ViewportHeight />
         {children}
       </body>

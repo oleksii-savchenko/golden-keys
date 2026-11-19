@@ -49,6 +49,10 @@ content:
         label: SEO — опис сторінки
         type: text
         options: { maxlength: 300 }
+      - name: gtmId
+        label: Google Tag Manager — ID контейнера
+        type: string
+        description: Формат GTM-XXXXXXX. Google Analytics та інші теги налаштовуються в самому GTM. Порожнє поле — аналітика вимкнена.
 
   # ── 1. Перший екран ───────────────────────────────────────────────────────
   - name: hero

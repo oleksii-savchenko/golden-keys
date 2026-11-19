@@ -56,6 +56,8 @@ const telHref = phoneDigits ? `tel:+${phoneDigits.startsWith("380") ? phoneDigit
 export const settings = {
   metaTitle: str(settingsJson.metaTitle),
   metaDescription: str(settingsJson.metaDescription),
+  /** Google Tag Manager, напр. GTM-N4SSK4H5; пусто или неверный формат — не подключаем */
+  gtmId: /^GTM-[A-Z0-9]+$/.test(str(settingsJson.gtmId).trim().toUpperCase()) ? str(settingsJson.gtmId).trim().toUpperCase() : "",
 };
 
 export const links = {
