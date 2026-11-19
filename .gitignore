@@ -10,3 +10,8 @@ next-env.d.ts
 
 # личные заметки по вёрстке (не для публичного репозитория)
 VERSTAI-*.md
+
+# рендер видео для кейса: зависимости и готовые ролики (тяжёлые)
+case-video/node_modules
+case-video/*.mp4
+case-video/*.log
